@@ -1,0 +1,10 @@
+*.pyc
+__pycache__/
+*.pyo
+*.pdb
+venv/
+*.log
+data/
+build/
+dist/
+*.spec
