@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake News Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: url("/static/images/background.png") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .logo {
+      width: 150px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 2px 2px 5px #000;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      max-width: 700px;
+    }
+
+    textarea {
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      resize: none;
+      height: 250px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+
+    button {
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(145deg, #00ff95, #009e6f);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 255, 149, 0.4);
+    }
+
+    button:hover {
+      background: linear-gradient(145deg, #ff0055, #ff3377);
+      box-shadow: 0 4px 25px rgba(255, 0, 85, 0.4);
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 5px #000;
+      text-align: center;
+    }
+
+    .confidence {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-shadow: 1px 1px 5px #000;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ Logo Here -->
+  <img src="{{ url_for('static', filename='images/logo.png') }}" alt="App Logo" class="logo">
+
+  <h1>🕵️‍♀️ Fake News Detector 📰</h1>
+
+  <form action="/predict" method="POST">
+    <textarea name="news" placeholder="Paste the news article here...📝 (No limit, go wild!)" required></textarea>
+    <button type="submit">🚀 Detect Now!</button>
+  </form>
+
+  {% if result %}
+    <div class="result">📢 {{ result }}</div>
+    <div class="confidence">🎯 Confidence: {{ confidence }}%</div>
+  {% endif %}
+
+  <script>
+    // Function to animate result
+    window.onload = function () {
+      const resultDiv = document.querySelector('.result');
+      if (resultDiv) {
+        resultDiv.classList.add('pop-in');
+
+        // Play sound
+        const resultText = resultDiv.innerText;
+        const audio = new Audio(
+          resultText.includes("Real") 
+            ? "/static/media/true-96217.mp3" 
+            : "/static/media/drop-sound-effect-240899.mp3"
+        );
+        audio.play();
+      }
+    };
+  </script>
+</body>
+</html>
